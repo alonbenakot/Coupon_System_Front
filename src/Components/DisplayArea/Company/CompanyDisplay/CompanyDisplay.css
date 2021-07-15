@@ -1,0 +1,29 @@
+.CompanyDisplay>.homeButton {
+        top: 10%;
+        right: 2%;
+        margin: 10px;
+        float: right;
+        position: fixed;
+}
+
+.CompanyDisplay>.addButton {
+        top: 10%;
+        left: 2%;
+        margin: 1px 1px 30px 40px ;
+        float: left;
+}
+
+.CompanyDisplay>.filterForm {
+        top: 25%;
+        left: 2%;
+        margin: 1px 20px;
+        float: left;
+        position: fixed;
+}
+
+.OperationCard {
+        margin: 10px 20px;
+}
+.CompanyDisplay> h4 {
+        display: block;
+}

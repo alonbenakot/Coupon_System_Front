@@ -1,0 +1,13 @@
+.Layout {
+	height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: 10% 85% 5%;
+    text-align: center;
+    background-image: url("../../../Assets/Images/banana.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+
+}

@@ -1,0 +1,5 @@
+.AddCompany > .Card  {
+	width: 200px;
+    text-align: center;
+    display: inline-block;
+}

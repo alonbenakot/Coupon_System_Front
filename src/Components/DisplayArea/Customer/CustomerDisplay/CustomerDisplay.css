@@ -1,0 +1,22 @@
+.CustomerDisplay>.filterForm {
+    left: 2%;
+    top: 14%;
+    margin: 10px;
+    float: left;
+    /* position: fixed; */
+}
+
+.CustomerDisplay>.homeButton {
+    right: 1%;
+    /* top: 1%; */
+    margin: 10px;
+    position: relative; 
+    /* display: inline-block;
+    /* position: fixed; */
+    float: right;
+}
+
+.CustomerDisplay> h4 {
+    /* display: inline-block; */
+    /* position: fixed; */
+}

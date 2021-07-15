@@ -1,0 +1,8 @@
+.UpdateCompanyForm > .updateForm {
+    width: 225px;
+    text-align: center;
+    display: inline-block;
+}
+.UpdateCompanyForm input {
+    width: 225px;
+}
