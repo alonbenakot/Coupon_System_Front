@@ -2,6 +2,7 @@ class Globals {
 
 }
 
+//this is a globals comment
 class DevelopmentGlobals extends Globals {
     public urls = {
         
