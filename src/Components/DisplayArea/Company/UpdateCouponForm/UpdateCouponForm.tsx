@@ -1,5 +1,6 @@
 import { Button, FormControl, FormHelperText, Input, InputLabel, makeStyles, MenuItem, Select, Typography } from "@material-ui/core";
 import { ArrowBack, Unsubscribe } from "@material-ui/icons";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { RouteComponentProps, useHistory } from "react-router";
@@ -54,7 +55,7 @@ function UpdateCouponForm(props: UpdateCouponFormProps): JSX.Element {
         if (!couponToUpdate.endDate) { couponToUpdate.endDate = coupon.endDate; }
         if (!couponToUpdate.startDate) { couponToUpdate.startDate = coupon.startDate; }
         if (!couponToUpdate.price) { couponToUpdate.price = coupon.price; }
-        if (!couponToUpdate.image.item(0)) { couponToUpdate.imageName = coupon.imageName; }
+        if (!couponToUpdate.image?.item(0)) { couponToUpdate.imageName = coupon.imageName; }
     }
 
     /**
@@ -77,22 +78,33 @@ function UpdateCouponForm(props: UpdateCouponFormProps): JSX.Element {
      */
     const handleUpdate = async (couponToUpdate: CouponModel) => {
         try {
+            
+            console.log(couponToUpdate);
+            
             couponToUpdate.id = coupon.id;
             couponToUpdate.company = coupon.company;
             checkIfChanged(couponToUpdate);
             if (!valiDates(couponToUpdate)) { return; }
-            console.log('did i get here?');
-            const myFormData = new FormData();
+           
+            const imgBBFormData = new FormData();
+            imgBBFormData.append("image", couponToUpdate.image.item(0))
+            imgBBFormData.set("key", "e72e6d0eb6fac509647b1faa2b4c6bcb")
+            let imgResponse = await axios.post("https://api.imgbb.com/1/upload", imgBBFormData);
+            let imgURL = imgResponse.data["data"]["display_url"];
 
+
+
+            const myFormData = new FormData();
             myFormData.append("id", couponToUpdate.id.toString());
             myFormData.append("amount", couponToUpdate.amount.toString());
             myFormData.append("category", couponToUpdate.category.toString());
             myFormData.append("description", couponToUpdate.description);
-            myFormData.append("endDate", new Date(couponToUpdate.endDate).toISOString().split("T")[0]);
+            myFormData.append("stringEndDate", new Date(couponToUpdate.endDate).toISOString().split("T")[0]);
             myFormData.append("price", couponToUpdate.price.toString());
-            myFormData.append("startDate", new Date(couponToUpdate.startDate).toISOString().split("T")[0]);
+            myFormData.append("stringStartDate", new Date(couponToUpdate.startDate).toISOString().split("T")[0]);
             myFormData.append("title", couponToUpdate.title);
-            myFormData.append("image", couponToUpdate.image.item(0));
+            myFormData.append("imageName", imgURL);
+            
 
             let response = await jwtAxios.put<CouponModel>(globals.urls.updateCoupon, myFormData);
             let updatedCoupon = response.data;
