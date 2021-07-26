@@ -40,9 +40,8 @@ class ProductionGlobals extends Globals {
         categoryCoupons: this.myUrl + "guest/get/coupons/category/",
         login:  this.myUrl + "login",
         guestAddCustomer:  this.myUrl + "guest/add/customer",
-        images: this.myUrl + "/",
-        // images: "/couponProjectPhase3/src/main/resources/static/pics/",
-
+        // images: this.myUrl + "/",
+      
         // admin globals
         addCompany:  this.myUrl + "admin/add/company/",
         getCompanies:  this.myUrl + "admin/get/companies",

@@ -101,8 +101,7 @@ function CouponCard(props: CouponCardProps): JSX.Element {
             {props.coupon.imageName !== "no_image" &&
               <CardMedia
                 className={classes.media}
-                image={globals.urls.images +
-                  props.coupon.imageName}
+                image={props.coupon.imageName}
               />
             }
             <CardHeader className={classes.title} title={props.coupon.title} />
