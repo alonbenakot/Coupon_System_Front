@@ -96,7 +96,7 @@ function FullCouponDetails(props: FullCouponDetailsProps): JSX.Element {
      */
     const showAmount = (): string => {
         let answer = "No coupons left!";
-        if (store.getState().authState.user.id === coupon.company.id) {answer = coupon.amount.toString();}
+        if (store.getState().authState.user?.id === coupon.company.id) {answer = coupon.amount.toString();}
         else if (coupon.amount === 1) { answer = "Last on left!" }
         else if (coupon.amount < 10 && coupon.amount > 0) { answer = "Under 10 left!" }
         else if (coupon.amount < 50 && coupon.amount > 9) { answer = "Under 50 left!" }

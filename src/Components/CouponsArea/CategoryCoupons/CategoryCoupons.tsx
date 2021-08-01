@@ -49,11 +49,11 @@ class CategoryCoupons extends Component<CategoryCouponsProps, CategoryCouponsSta
         super(props);
         this.state = { coupons: null };
     }
-    /**
-     * Manipulates a string, making each word begin with a capital letter followed by lower case letters.
-     * @returns string
-     */
     public render(): JSX.Element {
+        /**
+         * Manipulates a string, making each word begin with a capital letter followed by lower case letters.
+         * @returns string
+         */
         function niceString(categoryName: string): string {
             categoryName = categoryName.toLowerCase();
             categoryName = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
