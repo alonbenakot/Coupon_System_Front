@@ -36,7 +36,7 @@ function UpdateCouponForm(props: UpdateCouponFormProps): JSX.Element {
     const classes = useStyles();
     let [coupon, setCoupon] = useState<CouponModel>(() => store.getState().couponState.coupons.find((c) => (
         c.id === +props.match.params.id)));
-        console.log(coupon);
+    console.log(coupon);
 
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setValue(event.target.value as Category);
@@ -78,46 +78,54 @@ function UpdateCouponForm(props: UpdateCouponFormProps): JSX.Element {
      */
     const handleUpdate = async (couponToUpdate: CouponModel) => {
         try {
-            
+            console.log("deployed succesfully");
+
             console.log(couponToUpdate);
-            
+
             couponToUpdate.id = coupon.id;
             couponToUpdate.company = coupon.company;
             checkIfChanged(couponToUpdate);
-            if (!valiDates(couponToUpdate)) { return; }
-            let imgURL = coupon.imageName;
-            // upload image to imgBB only if an image was uploaded on the updateCouponForm.
-            if (couponToUpdate.image?.item(0)) {
-                const imgBBFormData = new FormData();
-                imgBBFormData.append("image", couponToUpdate.image.item(0))
-                imgBBFormData.set("key", "e72e6d0eb6fac509647b1faa2b4c6bcb")
-                let imgResponse = await axios.post("https://api.imgbb.com/1/upload", imgBBFormData);
-                imgURL = imgResponse.data["data"]["display_url"];
-                
+            console.log("before valiDates");
+            if (valiDates(couponToUpdate)) {
+                console.log("after valiDates");
+
+
+                let imgURL = coupon.imageName;
+                console.log("imgURL " + imgURL);
+                console.log(coupon);
+
+                // upload image to imgBB only if an image was uploaded on the updateCouponForm.
+                if (couponToUpdate.image?.item(0)) {
+                    const imgBBFormData = new FormData();
+                    imgBBFormData.append("image", couponToUpdate.image.item(0))
+                    imgBBFormData.set("key", "e72e6d0eb6fac509647b1faa2b4c6bcb")
+                    let imgResponse = await axios.post("https://api.imgbb.com/1/upload", imgBBFormData);
+                    imgURL = imgResponse.data["data"]["display_url"];
+                }
+
+
+
+                const myFormData = new FormData();
+                myFormData.append("id", couponToUpdate.id.toString());
+                myFormData.append("amount", couponToUpdate.amount.toString());
+                myFormData.append("category", couponToUpdate.category.toString());
+                myFormData.append("description", couponToUpdate.description);
+                myFormData.append("stringEndDate", new Date(couponToUpdate.endDate).toISOString().split("T")[0]);
+                myFormData.append("price", couponToUpdate.price.toString());
+                myFormData.append("stringStartDate", new Date(couponToUpdate.startDate).toISOString().split("T")[0]);
+                myFormData.append("title", couponToUpdate.title);
+                myFormData.append("imageName", imgURL);
+
+
+                let response = await jwtAxios.put<CouponModel>(globals.urls.updateCoupon, myFormData);
+                let updatedCoupon = response.data;
+                store.dispatch(couponUpdatedAction(updatedCoupon));
+                localStorage.removeItem("storage-coupon");
+                notify.success("Coupon " + updatedCoupon.title + " has been updated");
+                setTimeout(() => {
+                    history.push("/company/display");
+                }, 1000);
             }
-
-
-
-            const myFormData = new FormData();
-            myFormData.append("id", couponToUpdate.id.toString());
-            myFormData.append("amount", couponToUpdate.amount.toString());
-            myFormData.append("category", couponToUpdate.category.toString());
-            myFormData.append("description", couponToUpdate.description);
-            myFormData.append("stringEndDate", new Date(couponToUpdate.endDate).toISOString().split("T")[0]);
-            myFormData.append("price", couponToUpdate.price.toString());
-            myFormData.append("stringStartDate", new Date(couponToUpdate.startDate).toISOString().split("T")[0]);
-            myFormData.append("title", couponToUpdate.title);
-            myFormData.append("imageName", imgURL);
-            
-
-            let response = await jwtAxios.put<CouponModel>(globals.urls.updateCoupon, myFormData);
-            let updatedCoupon = response.data;
-            store.dispatch(couponUpdatedAction(updatedCoupon));
-            localStorage.removeItem("storage-coupon");
-            notify.success("Coupon " + updatedCoupon.title + " has been updated");
-            setTimeout(() => {
-                history.push("/company/display");
-            }, 1000);
         } catch (error) {
             notify.error(error);
         }
