@@ -96,11 +96,15 @@ function FullCouponDetails(props: FullCouponDetailsProps): JSX.Element {
      */
     const showAmount = (): string => {
         let answer = "No coupons left!";
-        if (coupon.amount === 1) { answer = "Last on left!" }
+        if (store.getState().authState.user.id === coupon.company.id) {answer = coupon.amount.toString();}
+        else if (coupon.amount === 1) { answer = "Last on left!" }
         else if (coupon.amount < 10 && coupon.amount > 0) { answer = "Under 10 left!" }
         else if (coupon.amount < 50 && coupon.amount > 9) { answer = "Under 50 left!" }
         else if (coupon.amount < 100 && coupon.amount > 49) { answer = "Under 100" }
         else if (coupon.amount > 100) { answer = "Over 100" }
+        else if (coupon.amount > 200) { answer = "Over 200" }
+        else if (coupon.amount > 500) { answer = "Over 500" }
+        else if (coupon.amount > 1000) { answer = "Over 1000" }
         return answer;
     }
     /**

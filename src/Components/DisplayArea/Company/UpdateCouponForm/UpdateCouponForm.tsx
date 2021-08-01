@@ -85,12 +85,16 @@ function UpdateCouponForm(props: UpdateCouponFormProps): JSX.Element {
             couponToUpdate.company = coupon.company;
             checkIfChanged(couponToUpdate);
             if (!valiDates(couponToUpdate)) { return; }
-           
-            const imgBBFormData = new FormData();
-            imgBBFormData.append("image", couponToUpdate.image.item(0))
-            imgBBFormData.set("key", "e72e6d0eb6fac509647b1faa2b4c6bcb")
-            let imgResponse = await axios.post("https://api.imgbb.com/1/upload", imgBBFormData);
-            let imgURL = imgResponse.data["data"]["display_url"];
+            let imgURL = coupon.imageName;
+            // upload image to imgBB only if an image was uploaded on the updateCouponForm.
+            if (couponToUpdate.image?.item(0)) {
+                const imgBBFormData = new FormData();
+                imgBBFormData.append("image", couponToUpdate.image.item(0))
+                imgBBFormData.set("key", "e72e6d0eb6fac509647b1faa2b4c6bcb")
+                let imgResponse = await axios.post("https://api.imgbb.com/1/upload", imgBBFormData);
+                imgURL = imgResponse.data["data"]["display_url"];
+                
+            }
 
 
 
